@@ -4,12 +4,12 @@ export default class Header {
     }
 
     render() {
-        const logoContainer = this.buildContainer()
+        const headerWrapper = this.buildWrapper()
         const logo = this.buildLogo()
         const pageName = this.buildPageName()
         
-        logoContainer.append(logo, pageName)
-        this.headerComponent.appendChild(logoContainer)
+        headerWrapper.append(logo, pageName)
+        this.headerComponent.appendChild(headerWrapper)
     }
 
     buildLogo() {
@@ -17,7 +17,7 @@ export default class Header {
         logoImgWrapper.classList.add('logo-img-wrapper')
 
         const logoImgElement = document.createElement('img')
-        logoImgElement.src = '$/V.svg'
+        logoImgElement.src = '/V.svg'
 
         const logoOverlappingText = document.createElement('a')
         logoOverlappingText.classList.add('logo-img-text-container')
@@ -28,11 +28,11 @@ export default class Header {
         return logoImgWrapper
     }
 
-    buildContainer() {
-        const logoContainer = document.createElement('div')
-        logoContainer.classList.add('logo-container')
+    buildWrapper() {
+        const headerWrapper = document.createElement('div')
+        headerWrapper.classList.add('header-wrapper')
 
-        return logoContainer
+        return headerWrapper
     }
 
     buildPageName() {
