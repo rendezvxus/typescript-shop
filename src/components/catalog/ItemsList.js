@@ -1,12 +1,22 @@
 export default class ItemsList {
     constructor(parentContainer) {
         this.parentContainer = parentContainer
+
+        this.container = null
     }
 
     render() {
-        const itemsListComponent = document.createElement('div')
-        itemsListComponent.classList.add('itemsList')
+        this.parentContainer.appendChild(this.container)
+    }
 
-        this.parentContainer.appendChild(itemsListComponent)
+    createContainer() {
+        this.container = document.createElement('div')
+        this.container.classList.add('itemsList')
+        return this
+    }
+
+    appendItems(items) {
+        const itemsElements = items.map(item => item.render())
+        this.container.append(...itemsElements)
     }
 }

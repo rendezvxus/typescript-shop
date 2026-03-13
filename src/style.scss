@@ -7,8 +7,8 @@ $primary: #2B2A29;
 
 body {
     margin: 0 0;
-    padding: 0 240px 0 240px;
-    overflow-y: hidden;
+    padding: 0 200px 0 200px;
+    overflow-x: hidden;
 }
 
 header {
@@ -62,13 +62,70 @@ main {
 }
 
 .itemsList {
-    width: 66%;
-    height: 100px;  /* fit-content */
-    background-color: red;
+    flex: 3;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    height: fit-content;
+    grid-column-gap: 10px;
+    grid-row-gap: 10px;
+    padding: 10px;
 }
 
+.item {
+    display: flex;
+    box-sizing: border-box;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: fit-content;
+    padding: 10px;
+    gap: 10px;
+    box-shadow: 1px 1px 5px 0px #0000004A;
+}
+
+.item-img {
+    object-fit: contain;
+    width: 100%;
+    height: 132px;
+}
+
+.item-name-container {
+    width: 100%;
+    height: 48px; 
+    h1 {
+        font-size: 20px;
+        margin: 0;
+    }
+}
+
+.item-desc-container {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 120px;
+    p { 
+        margin: 0;
+        font-size: 16px;
+    }
+}
+
+.item-footer {
+    display: flex;
+    align-items: end;
+    width: 100%;
+    height: 40px;
+    h2 {
+        font-family: 'Gilroy';
+        margin: 0;
+        font-size: 24px;
+    }
+}
+
+.div1 { grid-area: 1 / 4 / 2 / 6; }
+
+
 .cart {
-    width: 33%;
+    width: 25%;
     height: 100px;  /* undefined yet */
     background-color: green;
 }

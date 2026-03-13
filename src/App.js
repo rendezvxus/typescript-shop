@@ -17,7 +17,8 @@ export default class App {
         this.footer = new Footer(this.footerEl)
 
         this.header.render()
-        this.main.render()
+        this.main.init()
+        
         // Get cart items
         // create items and save them in manager
 
