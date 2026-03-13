@@ -1,6 +1,6 @@
 export default class Footer {
      constructor(footerEl) {
-        this.footerComponent = fotoerEl
+        this.footerComponent = footerEl
     }
 
     render() {

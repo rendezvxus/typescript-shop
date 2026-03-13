@@ -1,6 +1,6 @@
 import { Header, Main, Footer } from '@/components/components-body.js'
 
-class App {
+export default class App {
     constructor(headerEl, mainEl, footerEl) {
         this.headerEl = headerEl
         this.mainEl = mainEl
@@ -15,5 +15,7 @@ class App {
         this.header = new Header(this.headerEl)
         this.main = new Main(this.mainEl)
         this.footer = new Footer(this.footerEl)
+
+        this.header.render()
     }
 }
