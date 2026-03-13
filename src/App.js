@@ -13,7 +13,7 @@ class App {
 
     init() {
         this.header = new Header(this.headerEl)
-        this.main = new Header(this.mainEl)
-        this.footer = new Header(this.footerEl)
+        this.main = new Main(this.mainEl)
+        this.footer = new Footer(this.footerEl)
     }
 }
