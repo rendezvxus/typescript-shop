@@ -1,6 +1,6 @@
 export default class Header {
-    constructor(headerEl) {
-        this.headerComponent = headerEl
+    constructor(parentContainer) {
+        this.parentContainer = parentContainer
     }
 
     render() {
@@ -9,7 +9,7 @@ export default class Header {
         const pageName = this.buildPageName()
         
         headerWrapper.append(logo, pageName)
-        this.headerComponent.appendChild(headerWrapper)
+        this.parentContainer.appendChild(headerWrapper)
     }
 
     buildLogo() {
