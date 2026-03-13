@@ -18,9 +18,6 @@ export default class App {
 
         this.header.render()
         this.main.init()
-        
-        // Get cart items
-        // create items and save them in manager
-
+        this.footer.render()
     }
 }
