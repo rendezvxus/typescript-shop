@@ -28,7 +28,7 @@ export default class Main {
         this.cartManager = new CartManager(this.cart)
         
         this.itemList.createContainer().render()
-        this.cart.render()
+        this.cart.createContainer().render()
     }
 
     handleProducts(products) {
