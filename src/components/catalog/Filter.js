@@ -1,14 +1,14 @@
 import CategoryButton from './entity/CategoryButton.js'
 
 export default class Filter {
-    constructor(parentContainer) {
+    constructor(parentContainer, applyFilterCallback) {
         this.parentContainer = parentContainer
+
+
         this.container = this.createContainer()
-
         this.categories = []
-        this.categoryButtons = []
 
-        this.addCategoryCallback = null
+        this.applyFilterCallback = applyFilterCallback
     }
 
     createContainer() {
@@ -17,13 +17,27 @@ export default class Filter {
         return this
     }
 
-    async render() {
-        const categories = await this.getCategories()
-        this.categories = categories
+    createWrapper() {
+        const wrapper = document.createElement('div')
+        wrapper.classList.add('filter-wrapper')
+        return wrapper
+    }
 
-        this.categoryButtons = this.categories.map(category => new CategoryButton(this.container, category))
-        this.categoryButtons.forEach(button => button.render())
-        
+    async render() {
+        this.categories = await this.getCategories()
+
+        const wrapper = this.createWrapper()
+        const categoryButtons = this.categories.map(category => 
+            new CategoryButton(
+                wrapper, 
+                category, 
+                (category) => {this.applyFilterCallback(category)}
+            )
+        )
+
+        categoryButtons.forEach(button => button.render())
+
+        this.container.appendChild(wrapper)
         this.parentContainer.prepend(this.container)
     }
 
@@ -33,15 +47,17 @@ export default class Filter {
             .then(response => response.json())
     }
 
-    buildButton(category) {
-        const button = document.createElement('button')
-        button.classList.add('category-button')
-        button.innerHTML = `${category}`
+    toggleFilter(category) {
+        console.log("Toggled " + category.name)
+        const index = this.filteredCategories.indexOf(category)
+        if (index >= 0) {
+            this.filteredCategories.splice(index, 1)
+        } else {
+            this.filteredCategories.push(category)
+        }
+    }
 
-        button.addEventListener('click', (e) => {
-            this.addCategoryCallback
-        })
-        
-        return button
+    getFilteredCaretgories() {
+        return this.filteredCategories
     }
 }

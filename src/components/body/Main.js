@@ -20,7 +20,7 @@ export default class Main {
     init() {
         this.itemList = new ItemsList(this.mainComponent)
         this.cart = new Cart(this.mainComponent, () => { this.checkoutItems() })
-        this.filter = new Filter(this.mainComponent)
+        this.filter = new Filter(this.mainComponent, (args) => this.filterItems(args))
         this.cartManager = new CartManager(this.cart)
 
         this.itemList.createContainer()
@@ -66,12 +66,32 @@ export default class Main {
         this.generateItems(requestLimit, this.items.length)
     }
 
-    generateItems(limit, skip = 0, category = '') {
-        fetch(`https://dummyjson.com/products?limit=${limit}&skip=${skip}&select=title,description,price,images,category`)
+    flushItemCards() {
+        this.items = []
+        this.itemList.flushItems()    
+    }
+
+    generateItems(limit, skip = 0, category) {
+
+        const url = this.constructUrl(limit,skip,category)
+        fetch(url)
             .then(response => response.json())
             .then(jsonData => {
                 const products = jsonData.products
                 this.handleProducts(products) 
             })
+    }
+
+    constructUrl(limit, skip = 0, category = {}) {
+        const url = `
+            https://dummyjson.com/products${category.slug ? '/category/'+category.slug : ''}?limit=${limit}${skip ? '&skip='+skip : ''}&select=title,description,price,images,category
+        `
+        console.log(url)
+        return url
+    }
+
+    filterItems(category) {
+        this.flushItemCards()
+        this.generateItems(0, 0 , category)
     }
 }

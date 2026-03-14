@@ -38,4 +38,8 @@ export default class ItemsList {
         this.wrapper.appendChild(button)
         this.showMoreButton = button
     }
+
+    flushItems() {
+        this.itemsContainer.innerHTML = ``
+    }
 }
