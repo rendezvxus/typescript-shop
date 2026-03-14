@@ -1,7 +1,9 @@
 import ItemsList from '../catalog/ItemsList.js'
-import Cart from '../catalog/entity/Cart.js'
 import CartManager from '../catalog/CartManager.js'
+import Filter from '../catalog/Filter.js'
+import Cart from '../catalog/entity/Cart.js'
 import Item from '../catalog/entity/Item.js'
+
 export default class Main {
     constructor(mainEl) {
         this.mainComponent = mainEl
@@ -10,32 +12,37 @@ export default class Main {
 
         this.itemList = null
         this.cart = null
+        this.filter = null
 
         this.cartManager = null
     }
 
     init() {
-        const INITIAL_CARDS_AMOUNT = 6
-
         this.itemList = new ItemsList(this.mainComponent)
-
-        this.generateItems(INITIAL_CARDS_AMOUNT)
-
         this.cart = new Cart(this.mainComponent, () => { this.checkoutItems() })
+        this.filter = new Filter(this.mainComponent)
         this.cartManager = new CartManager(this.cart)
-        
-        this.itemList.createContainer().render()
-        this.cart.createContainer().render()
 
+        this.itemList.createContainer()
         this.itemList.createShowMore(() => {this.renderMoreCards() })
+        this.cart.createContainer()
+        this.filter.createContainer()
+
+        this.itemList.render()
+        this.cart.render()
+        this.filter.render()
+
+        const INITIAL_CARDS_AMOUNT = 6
+        this.generateItems(INITIAL_CARDS_AMOUNT)
     }
 
     handleProducts(products) {
+        console.log(products)
         const newItemsArray = 
             products.map(datum => 
                 new Item(datum, (item) => { this.addToCart(item) })
             )
-            
+
         this.items = this.items.concat(newItemsArray)
         this.itemList.appendItems(newItemsArray)
     }
@@ -59,8 +66,8 @@ export default class Main {
         this.generateItems(requestLimit, this.items.length)
     }
 
-    generateItems(limit, skip = 0) {
-        fetch(`https://dummyjson.com/products?limit=${limit}&skip=${skip}&select=title,description,price,images`)
+    generateItems(limit, skip = 0, category = '') {
+        fetch(`https://dummyjson.com/products?limit=${limit}&skip=${skip}&select=title,description,price,images,category`)
             .then(response => response.json())
             .then(jsonData => {
                 const products = jsonData.products
