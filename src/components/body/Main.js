@@ -15,14 +15,11 @@ export default class Main {
     }
 
     init() {
+        const INITIAL_CARDS_AMOUNT = 6
+
         this.itemList = new ItemsList(this.mainComponent)
 
-        fetch('https://dummyjson.com/products?limit=6&select=title,description,price,images')
-            .then(response => response.json())
-            .then(jsonData => {
-                const products = jsonData.products
-                this.handleProducts(products) 
-            })
+        this.generateItems(INITIAL_CARDS_AMOUNT)
 
         this.cart = new Cart(this.mainComponent, () => { this.checkoutItems() })
         this.cartManager = new CartManager(this.cart)
@@ -30,12 +27,17 @@ export default class Main {
         this.itemList.createContainer().render()
         this.cart.createContainer().render()
 
-        this.itemList.createShowMore(() => {this.renderMoreCards()})
+        this.itemList.createShowMore(() => {this.renderMoreCards() })
     }
 
     handleProducts(products) {
-        this.items = products.map(datum => new Item(datum, (item) => {this.addToCart(item)}))
-        this.itemList.appendItems(this.items)
+        const newItemsArray = 
+            products.map(datum => 
+                new Item(datum, (item) => { this.addToCart(item) })
+            )
+            
+        this.items = this.items.concat(newItemsArray)
+        this.itemList.appendItems(newItemsArray)
     }
 
     addToCart(item) {
@@ -47,6 +49,22 @@ export default class Main {
     }
 
     renderMoreCards() {
-        alert('LOADING MORE CARDS')
+        const MAX_ROWS_AMOUNT = 4
+        const CARDS_IN_ROW = 3
+        const rng = Math.random()
+
+        const rowsToRequest = Math.ceil(rng * MAX_ROWS_AMOUNT)
+        const requestLimit = rowsToRequest * CARDS_IN_ROW
+        
+        this.generateItems(requestLimit, this.items.length)
+    }
+
+    generateItems(limit, skip = 0) {
+        fetch(`https://dummyjson.com/products?limit=${limit}&skip=${skip}&select=title,description,price,images`)
+            .then(response => response.json())
+            .then(jsonData => {
+                const products = jsonData.products
+                this.handleProducts(products) 
+            })
     }
 }

@@ -3,7 +3,7 @@ export default class Item {
         this.title = title
         this.description = description
         this.price = price
-        this.image = this.resolveItemImageUrl(images[0])
+        this.image = images[0]
 
         this.addToCartCallback = addToCartCallback
     }
@@ -24,10 +24,6 @@ export default class Item {
         itemElement.appendChild(footer)
 
         return itemElement
-    }
-
-    resolveItemImageUrl(url) {
-        return url.slice(0, -1)
     }
 
     buildFooter() {
