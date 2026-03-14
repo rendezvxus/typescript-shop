@@ -1,8 +1,12 @@
 export default class Cart {
     constructor(parentContainer) {
         this.parentContainer = parentContainer
-
         this.container = null
+        this.body = null
+
+        this.itemElements = {}
+        this.totalPrice = 0
+        this.totalPriceElement = null
     }
 
     render() {
@@ -31,20 +35,72 @@ export default class Cart {
     buildBody() {
         const body = document.createElement('div')
         body.classList.add('cart-body')
+
+        this.body = body
+
         return body
     }
 
     buildFooter() {
         const footer = document.createElement('div')
         footer.classList.add('cart-footer')
-        footer.innerHTML = `<p>Total: 0$</p>`
+
+        this.totalPriceElement = document.createElement('p')
+        this.totalPriceElement.innerHTML = `<p>Total: 0$</p>`
 
         const checkoutButton = document.createElement('button')
         checkoutButton.classList.add('cart-checkout-btn')
         checkoutButton.type = 'button'
         checkoutButton.innerHTML = `CHECKOUT`
 
-        footer.appendChild(checkoutButton)
+        footer.append(this.totalPriceElement,checkoutButton)
         return footer
+    }
+
+    addItem(item, removeSelfCallback) {
+        this.removeSelfCallback = removeSelfCallback
+        const itemElement = this.renderItem(item)
+        this.itemElements[item.title] = itemElement
+        this.body.appendChild(itemElement)
+    }
+
+    updateCount(item, count) {
+        const itemTitle = item.title
+        const itemElement = this.itemElements[itemTitle]
+        if (itemElement) {
+            itemElement.innerHTML = `
+            <img class="cart-item-image" src="${item.image}"/>
+            <div class="cart-item-info">
+                <p>${item.title}</p>
+                <p>${item.price} x ${count}</p>
+            </div>
+            `
+        }
+    }
+
+    renderItem(item) {
+        const itemElement = document.createElement('div')
+        itemElement.classList.add('cart-item')
+        itemElement.innerHTML = `
+            <img class="cart-item-image" src="${item.image}"/>
+            <div class="cart-item-info">
+                <p>${item.title}</p>
+                <p>${item.price} x 1</p>
+            </div>
+        `
+
+        const removeButton = document.createElement('button')
+        removeButton.innerHTML = `<img class="cart-item-image" src="/Cross.svg"/>`
+        removeButton.addEventListener('click', (e) => {
+            this.removeSelfCallback(this)
+        })
+
+        itemElement.appendChild(removeButton)
+        return itemElement
+    }
+
+    updateTotal(totalPrice) {
+        this.totalPrice = totalPrice
+        this.totalPriceElement.innerHTML = `<p>Total: ${this.totalPrice}$</p>`
     }
 }

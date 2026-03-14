@@ -32,7 +32,11 @@ export default class Main {
     }
 
     handleProducts(products) {
-        this.items = products.map(datum => new Item(datum))
+        this.items = products.map(datum => new Item(datum, (item) => {this.addToCart(item)}))
         this.itemList.appendItems(this.items)
+    }
+
+    addToCart(item) {
+        this.cartManager.addToCart(item)
     }
 }
