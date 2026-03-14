@@ -24,11 +24,13 @@ export default class Main {
                 this.handleProducts(products) 
             })
 
-        this.cart = new Cart(this.mainComponent)
+        this.cart = new Cart(this.mainComponent, () => { this.checkoutItems() })
         this.cartManager = new CartManager(this.cart)
         
         this.itemList.createContainer().render()
         this.cart.createContainer().render()
+
+        this.itemList.createShowMore(() => {this.renderMoreCards()})
     }
 
     handleProducts(products) {
@@ -38,5 +40,13 @@ export default class Main {
 
     addToCart(item) {
         this.cartManager.addToCart(item)
+    }
+
+    checkoutItems() {
+        this.cartManager.checkoutItems()
+    }
+
+    renderMoreCards() {
+        alert('LOADING MORE CARDS')
     }
 }

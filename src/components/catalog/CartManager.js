@@ -41,6 +41,15 @@ export default class CartManager {
 
     updateTotal() {
         const totalPrice = this.getTotalPrice()
-        this.cart.updateTotal(totalPrice)
+        const priceRoundUp = totalPrice == 0 ? totalPrice : totalPrice.toFixed(2);
+        this.cart.updateTotal(priceRoundUp)
+    }
+
+    checkoutItems() {
+        console.log(this.itemsInCart)
+
+        this.itemsInCart = []
+        this.cart.checkout()
+        this.updateTotal()
     }
 }

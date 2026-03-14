@@ -1,6 +1,8 @@
 export default class Cart {
-    constructor(parentContainer) {
+    constructor(parentContainer, checkoutCallback) {
         this.parentContainer = parentContainer
+        this.checkoutCallback = checkoutCallback
+
         this.container = null
         this.body = null
 
@@ -52,6 +54,10 @@ export default class Cart {
         checkoutButton.type = 'button'
         checkoutButton.innerHTML = `CHECKOUT`
 
+        checkoutButton.addEventListener('click', (e) => {
+            this.checkoutCallback()
+        })
+
         footer.append(this.totalPriceElement,checkoutButton)
         return footer
     }
@@ -89,7 +95,7 @@ export default class Cart {
             <img class="cart-item-image" src="${item.image}"/>
             <div class="cart-item-info">
                 <p>${item.title}</p>
-                <p>${item.price}$ x ${count}</p>
+                <h3>${item.price}$ x ${count}</h3>
             </div>
         `
         const removeButton = document.createElement('button')
@@ -111,4 +117,9 @@ export default class Cart {
         itemElement.appendChild(removeButton)
     }
 
+    checkout() {
+        this.body.innerHTML = ``
+        this.itemElements = {}
+        
+    }
 }
