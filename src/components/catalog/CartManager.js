@@ -9,7 +9,7 @@ export default class CartManager {
     }
 
     addToCart(item) {
-        const itemInfo = this.itemsInCart.find(obj => {console.log(item.title, obj.title); return item.title == obj.title})
+        const itemInfo = this.itemsInCart.find(obj => item.title == obj.title)
         if  (itemInfo) {
             itemInfo.amount += 1
             this.cart.updateCount(item, itemInfo.amount)
@@ -18,17 +18,17 @@ export default class CartManager {
             this.itemsInCart.push(itemInfo)
             this.cart.addItem(item, (item) => { this.removeItem(item) })
         }
-
-        const totalPrice = this.getTotalPrice()
-        this.cart.updateTotal(totalPrice)
+        this.updateTotal()
     }
 
     removeItem(item) {
-        
+        this.itemsInCart = this.itemsInCart.filter(obj => obj.title !== item.title)
+        this.updateTotal()
     }
 
     getTotalPrice() {
-        return this.itemsInCart.map(obj => obj.price * obj.amount).reduce((a,b) => a + b)
+        const pricesArray = this.itemsInCart.map(obj => obj.price * obj.amount)
+        return pricesArray[0] ? pricesArray.reduce((a,b) => a + b) : 0;
     }
 
     buildItemInfo(item) {
@@ -37,5 +37,10 @@ export default class CartManager {
             price: item.price,
             amount: 1
         }
+    }
+
+    updateTotal() {
+        const totalPrice = this.getTotalPrice()
+        this.cart.updateTotal(totalPrice)
     }
 }

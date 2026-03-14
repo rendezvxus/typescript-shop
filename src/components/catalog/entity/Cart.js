@@ -5,7 +5,6 @@ export default class Cart {
         this.body = null
 
         this.itemElements = {}
-        this.totalPrice = 0
         this.totalPriceElement = null
     }
 
@@ -68,34 +67,15 @@ export default class Cart {
         const itemTitle = item.title
         const itemElement = this.itemElements[itemTitle]
         if (itemElement) {
-            itemElement.innerHTML = `
-            <img class="cart-item-image" src="${item.image}"/>
-            <div class="cart-item-info">
-                <p>${item.title}</p>
-                <p>${item.price} x ${count}</p>
-            </div>
-            `
+            this.buildElementHTML(itemElement, item, count)
         }
     }
 
     renderItem(item) {
         const itemElement = document.createElement('div')
         itemElement.classList.add('cart-item')
-        itemElement.innerHTML = `
-            <img class="cart-item-image" src="${item.image}"/>
-            <div class="cart-item-info">
-                <p>${item.title}</p>
-                <p>${item.price} x 1</p>
-            </div>
-        `
-
-        const removeButton = document.createElement('button')
-        removeButton.innerHTML = `<img class="cart-item-image" src="/Cross.svg"/>`
-        removeButton.addEventListener('click', (e) => {
-            this.removeSelfCallback(this)
-        })
-
-        itemElement.appendChild(removeButton)
+        this.buildElementHTML(itemElement, item)
+        
         return itemElement
     }
 
@@ -103,4 +83,32 @@ export default class Cart {
         this.totalPrice = totalPrice
         this.totalPriceElement.innerHTML = `<p>Total: ${this.totalPrice}$</p>`
     }
+
+    buildElementHTML(itemElement, item, count = 1) {
+        itemElement.innerHTML = `
+            <img class="cart-item-image" src="${item.image}"/>
+            <div class="cart-item-info">
+                <p>${item.title}</p>
+                <p>${item.price}$ x ${count}</p>
+            </div>
+        `
+        const removeButton = document.createElement('button')
+        removeButton.innerHTML = `<img class="cart-item-image" src="/Cross.svg"/>`
+        removeButton.addEventListener('click', (e) => {  
+            const itemTitle = item.title
+            const itemElement = this.itemElements[itemTitle]
+
+            if(itemElement) {
+                itemElement.remove()
+                delete this.itemElements[itemTitle]
+            }
+
+            if (this.removeSelfCallback) {
+                this.removeSelfCallback(item)
+            }
+        })
+
+        itemElement.appendChild(removeButton)
+    }
+
 }
