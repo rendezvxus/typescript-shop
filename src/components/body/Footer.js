@@ -5,7 +5,7 @@ export default class Footer {
 
     render() {
         this.container.innerHTML = `
-            <p>© 2020-2024, made with </p>
+            <p>© 2020-2026, made with </p>
             <img class="footer-heart" src="/Heart.svg"/>
             <p> by </p>
             <a href="https://vistegra.by/">Vistegra</a>
