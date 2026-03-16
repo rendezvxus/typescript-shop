@@ -69,11 +69,11 @@ export default class Cart {
         this.body.appendChild(itemElement)
     }
 
-    updateCount(item, count) {
+    updateCount(item) {
         const itemTitle = item.title
         const itemElement = this.itemElements[itemTitle]
         if (itemElement) {
-            this.buildElementHTML(itemElement, item, count)
+            this.buildElementHTML(itemElement, item)
         }
     }
 
@@ -90,12 +90,12 @@ export default class Cart {
         this.totalPriceElement.innerHTML = `<p>Total: ${this.totalPrice}$</p>`
     }
 
-    buildElementHTML(itemElement, item, count = 1) {
+    buildElementHTML(itemElement, item) {
         itemElement.innerHTML = `
             <img class="cart-item-image" src="${item.image}"/>
             <div class="cart-item-info">
                 <p>${item.title}</p>
-                <h3>${item.price}$ x ${count}</h3>
+                <h3>${item.price}$ x ${item.amount || 1}</h3>
             </div>
         `
         const removeButton = document.createElement('button')

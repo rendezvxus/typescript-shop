@@ -1,21 +1,44 @@
 import Cart from './entity/Cart.js'
 import Item from './entity/Item.js'
+import LocalStorageManager from '../localStorageManager.js'
 
 export default class CartManager {
     constructor(cartEntity) {
         this.cart = cartEntity
-
         this.itemsInCart = []
+
+        this.storageManager = null;
     }
 
-    addToCart(item) {
+    init() {
+        this.initStorage()
+        const data = this.getStorageData()
+        if (data) {
+            data.forEach(item => {
+                this.addToCart(item, true)
+            })
+            this.updateTotal()
+        }
+    }
+
+    addToCart(item, fromStorage = false) {
+
+        if (fromStorage) {
+            this.itemsInCart.push(item)
+            this.cart.addItem(item, (item) => { this.removeItem(item) })
+            return
+        }
+
         const itemInfo = this.itemsInCart.find(obj => item.title == obj.title)
-        if  (itemInfo) {
+        
+        if (itemInfo) { 
             itemInfo.amount += 1
-            this.cart.updateCount(item, itemInfo.amount)
-        } else {
-            const itemInfo = this.buildItemInfo(item)
-            this.itemsInCart.push(itemInfo)
+            this.cart.updateCount(itemInfo)
+        } else {      
+            if (!item.amount) {
+                this.addItemCount(item)
+            }
+            this.itemsInCart.push(item)
             this.cart.addItem(item, (item) => { this.removeItem(item) })
         }
         this.updateTotal()
@@ -31,12 +54,9 @@ export default class CartManager {
         return pricesArray[0] ? pricesArray.reduce((a,b) => a + b) : 0;
     }
 
-    buildItemInfo(item) {
-        return {
-            title: item.title,
-            price: item.price,
-            amount: 1
-        }
+    addItemCount(item) {
+        item.amount = 1
+        return item
     }
 
     updateTotal() {
@@ -46,10 +66,21 @@ export default class CartManager {
     }
 
     checkoutItems() {
-        console.log(this.itemsInCart)
-
         this.itemsInCart = []
         this.cart.checkout()
         this.updateTotal()
+    }
+
+    initStorage() {
+        this.storageManager = new LocalStorageManager(() => this.getItemsInCart() )
+        this.storageManager.init()
+    }
+
+    getStorageData() {
+        return this.storageManager.getData()
+    }
+
+    getItemsInCart() {
+        return this.itemsInCart
     }
 }

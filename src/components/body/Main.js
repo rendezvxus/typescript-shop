@@ -32,12 +32,13 @@ export default class Main {
         this.cart.render()
         this.filter.render()
 
+        this.cartManager.init()
+
         const INITIAL_CARDS_AMOUNT = 6
         this.generateItems(INITIAL_CARDS_AMOUNT)
     }
 
     handleProducts(products) {
-        console.log(products)
         const newItemsArray = 
             products.map(datum => 
                 new Item(datum, (item) => { this.addToCart(item) })
@@ -94,4 +95,5 @@ export default class Main {
         this.flushItemCards()
         this.generateItems(0, 0 , category)
     }
+
 }
