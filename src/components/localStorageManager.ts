@@ -1,4 +1,4 @@
-import type { apiData, category, itemData } from './common-types.ts';
+import type { itemData } from './common-types.ts';
 
 export default class LocalStorageManager {
 
@@ -37,7 +37,7 @@ export default class LocalStorageManager {
 
     createOncloseListener() {
         const self = this
-        window.addEventListener('beforeunload', (e) => {
+        window.addEventListener('beforeunload', () => {
             const data = self.onWindowCloseCallback()
             self.saveData(data)
         })

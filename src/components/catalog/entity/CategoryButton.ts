@@ -1,4 +1,4 @@
-import type { apiData, category, itemData } from '../../common-types.ts';
+import type { category } from '../../common-types.ts';
 
 export default class FilterButton {
 

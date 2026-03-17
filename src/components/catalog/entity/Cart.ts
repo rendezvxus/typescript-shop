@@ -1,6 +1,4 @@
-import Item from '../entity/Item.ts'
-
-import type { apiData, itemData, category } from '../../common-types.ts'
+import type { itemData } from '../../common-types.ts'
 
 export default class Cart {
 

@@ -1,4 +1,4 @@
-import type { apiData, itemData, category } from '../../common-types.ts'
+import type { apiData, category } from '../../common-types.ts'
 
 export default class Item {
 

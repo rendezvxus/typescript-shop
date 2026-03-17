@@ -2,7 +2,7 @@ import Cart from './entity/Cart.ts'
 import Item from './entity/Item.ts'
 import LocalStorageManager from '../localStorageManager.ts'
 
-import type { apiData, itemData, category } from '../common-types.ts'
+import type { itemData } from '../common-types.ts'
 
 export default class CartManager {
 

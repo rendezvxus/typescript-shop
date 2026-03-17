@@ -53,7 +53,7 @@ export default class ItemsList {
     }
 
     showMoreInit(addMoreCardsCallback: () => void) {
-        this.showMoreButton.addEventListener('click', (e) => {
+        this.showMoreButton.addEventListener('click', () => {
             addMoreCardsCallback()
         })
     }
