@@ -1,3 +1,11 @@
+type apiData = {
+    title: string,
+    description: string,
+    price: number,
+    images: string[],
+    category: category,
+}
+
 type category = {
     slug: String;
     name: String;
@@ -8,10 +16,9 @@ type itemData = {
     title: string,
     description: string,
     price: number,
-    images: string[],
+    image: string,
     category: category,
-
-    amount?: number
+    amount: number
 }
 
 export default class Item {
@@ -24,7 +31,7 @@ export default class Item {
     public addToCartCallback: (self: Item) => void;
 
     constructor(
-        productData: itemData, 
+        productData: apiData, 
         addToCartCallback: (self: Item) => void
     ) {
         this.title = productData.title

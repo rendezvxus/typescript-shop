@@ -1,3 +1,20 @@
+import Item from '../entity/Item.ts'
+
+type itemData = {
+    title: string,
+    description: string,
+    price: number,
+    image: string,
+    category: category,
+    amount: number
+}
+
+type category = {
+    slug: String;
+    name: String;
+    url: String;
+}
+
 export default class Cart {
 
     public parentContainer: Element;
@@ -7,11 +24,15 @@ export default class Cart {
     public body: Element;
     public totalPriceElement: Element;
 
-    public itemElements: {};
+    public itemElements: {[key: string]: Element};
+
+    public removeItemCallback: (itemData: itemData) => void;
+    public totalPrice: number;
 
     constructor(
         parentContainer: Element, 
-        checkoutCallback: () => void
+        checkoutCallback: () => void,
+        removeItemCallback: (item: itemData) => void
     ) {
         this.parentContainer = parentContainer
         this.checkoutCallback = checkoutCallback
@@ -20,7 +41,11 @@ export default class Cart {
         this.totalPriceElement = this.buildTotalPriceElement();
         this.container = this.buildContainer();
         
-        this.itemElements = {}
+        this.itemElements = {};
+
+        this.removeItemCallback = removeItemCallback
+
+        this.totalPrice = 0
     }
 
     render() {
@@ -83,60 +108,67 @@ export default class Cart {
         return checkoutButton
     }
 
-    // addItem(item, removeSelfCallback) {
-    //     this.removeSelfCallback = removeSelfCallback
-    //     const itemElement = this.renderItem(item)
-    //     this.itemElements[item.title] = itemElement
-    //     this.body.appendChild(itemElement)
-    // }
+    addItem(
+        itemData: itemData
+    ) {
+        const itemElement = this.renderItem(itemData)
 
-    // updateCount(item) {
-    //     const itemTitle = item.title
-    //     const itemElement = this.itemElements[itemTitle]
-    //     if (itemElement) {
-    //         this.buildElementHTML(itemElement, item)
-    //     }
-    // }
+        this.itemElements[itemData.title] = itemElement
+        this.body.appendChild(itemElement)
+    }
 
-    // renderItem(item) {
-    //     const itemElement = document.createElement('div')
-    //     itemElement.classList.add('cart-item')
-    //     this.buildElementHTML(itemElement, item)
+    updateCount(itemData: itemData) {
+        const itemTitle = itemData.title
+        const itemElement = this.itemElements[itemTitle]
+        if (itemElement) {
+            this.buildElementHTML(itemElement, itemData)
+        }
+    }
+
+    renderItem(
+        itemData: itemData
+    ) {
+        const itemElement = document.createElement('div')
+        itemElement.classList.add('cart-item')
+        this.buildElementHTML(itemElement, itemData)
         
-    //     return itemElement
-    // }
+        return itemElement
+    }
 
-    // updateTotal(totalPrice) {
-    //     this.totalPrice = totalPrice
-    //     this.totalPriceElement.innerHTML = `<p>Total: ${this.totalPrice}$</p>`
-    // }
+    updateTotal(totalPrice: number) {
+        this.totalPrice = totalPrice
+        this.totalPriceElement.innerHTML = `<p>Total: ${this.totalPrice}$</p>`
+    }
 
-    // buildElementHTML(itemElement, item) {
-    //     itemElement.innerHTML = `
-    //         <img class="cart-item-image" src="${item.image}"/>
-    //         <div class="cart-item-info">
-    //             <p>${item.title}</p>
-    //             <h3>${item.price}$ x ${item.amount || 1}</h3>
-    //         </div>
-    //     `
-    //     const removeButton = document.createElement('button')
-    //     removeButton.innerHTML = `<img class="cart-item-image" src="/Cross.svg"/>`
-    //     removeButton.addEventListener('click', (e) => {  
-    //         const itemTitle = item.title
-    //         const itemElement = this.itemElements[itemTitle]
+    buildElementHTML(
+        itemElement: Element, 
+        itemData: itemData
+    ) {
+        itemElement.innerHTML = `
+            <img class="cart-item-image" src="${itemData.image}"/>
+            <div class="cart-item-info">
+                <p>${itemData.title}</p>
+                <h3>${itemData.price}$ x ${itemData.amount || 1}</h3>
+            </div>
+        `
+        const removeButton = document.createElement('button')
+        removeButton.innerHTML = `<img class="cart-item-image" src="/Cross.svg"/>`
+        removeButton.addEventListener('click', () => {  
+            const itemTitle = itemData.title
+            const itemElement = this.itemElements[itemTitle]
 
-    //         if(itemElement) {
-    //             itemElement.remove()
-    //             delete this.itemElements[itemTitle]
-    //         }
+            if(itemElement) {
+                itemElement.remove()
+                delete this.itemElements[itemTitle]
+            }
 
-    //         if (this.removeSelfCallback) {
-    //             this.removeSelfCallback(item)
-    //         }
-    //     })
+            if (this.removeItemCallback) {
+                this.removeItemCallback(itemData)
+            }
+        })
 
-    //     itemElement.appendChild(removeButton)
-    // }
+        itemElement.appendChild(removeButton)
+    }
 
     // checkout() {
     //     this.body.innerHTML = ``

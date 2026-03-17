@@ -1,17 +1,24 @@
 import ItemsList from '../catalog/ItemsList.ts'
-// import CartManager from '../catalog/CartManager.js'
+import CartManager from '../catalog/CartManager.ts'
 // import Filter from '../catalog/Filter.js'
 import Cart from '../catalog/entity/Cart.ts'
 import Item from '../catalog/entity/Item.ts'
 
-type itemData = {
+type apiData = {
     title: string,
     description: string,
     price: number,
     images: string[],
     category: category,
+}
 
-    amount?: number
+type itemData = {
+    title: string,
+    description: string,
+    price: number,
+    image: string,
+    category: category,
+    amount: number
 }
 
 type category = {
@@ -27,9 +34,9 @@ export default class Main {
     public itemList: ItemsList;
     public cart: Cart;
     // public filter: Filter;
-    // public cartManager: CartManager;
+    public cartManager: CartManager;
 
-    public items: Object[];
+    public items: Item[];
 
     constructor(
         mainEl: Element
@@ -37,11 +44,19 @@ export default class Main {
         this.mainComponent = mainEl
 
         this.itemList = new ItemsList(this.mainComponent)
-        this.cart = new Cart(this.mainComponent, () => { this.checkoutItems() })
+        this.cart = new Cart(
+            this.mainComponent,
+            () => { this.checkoutItems() },
+            (itemData: itemData) => this.removeFromCart(itemData)
+        )
         // this.filter = null;
-        // this.cartManager = new CartManager(this.cart)
+        this.cartManager = new CartManager(this.cart)
 
         this.items = [];
+    }
+
+    removeFromCart(itemData: itemData) {
+        this.cartManager.removeItem(itemData)
     }
 
     init() {
@@ -61,11 +76,14 @@ export default class Main {
         this.generateItems(INITIAL_CARDS_AMOUNT)
     }
 
-    handleProducts(products: itemData[]) {
+    handleProducts(products: apiData[]) {
         console.log(products)
         const newItemsArray = 
-            products.map(datum=> 
-                new Item(datum, (item) => { this.addToCart(item) })
+            products.map(datum => 
+                new Item(
+                    datum, 
+                    (datum: itemData) => { this.addToCart(datum) }
+                )
             )
 
         this.items = this.items.concat(newItemsArray)
@@ -73,9 +91,8 @@ export default class Main {
     }
 
 
-    addToCart(item: Item) {
-        alert('silencer here')
-    //     this.cartManager.addToCart(item)
+    addToCart(item: itemData) {
+        this.cartManager.addToCart(item)
     }
 
     checkoutItems() {
