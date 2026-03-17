@@ -5,6 +5,8 @@ export default class ItemsList {
     public wrapper: Element;
     public itemsContainer: Element;
 
+    public showMoreButton: HTMLButtonElement;
+
     constructor(
         parentContainer: Element
     ) {
@@ -14,17 +16,21 @@ export default class ItemsList {
 
         this.wrapper = this.createContainer()
         this.itemsContainer = this.createContainer() 
+
+        this.showMoreButton = this.createShowMoreButton()
     }
 
     render() {
-        this.wrapper.appendChild(this.itemsContainer)
+        this.wrapper.append(
+            this.itemsContainer, 
+            this.showMoreButton
+        )
         this.parentContainer.appendChild(this.wrapper)
     }
 
     createWrapper(): Element {
         const wrapper: Element = document.createElement('div')
         wrapper.classList.add('itemsList-wrapper')
-
         return wrapper
     }
 
@@ -34,24 +40,25 @@ export default class ItemsList {
         return itemsContainer
     }
 
+    createShowMoreButton(): HTMLButtonElement {
+        const button = document.createElement('button')
+        button.classList.add('show-more-btn')
+        button.type = 'button'
+        button.innerHTML = `show more`
+
+        return button
+    }
+
     // appendItems(items) {
     //     const itemsElements = items.map(item => item.render())
     //     this.itemsContainer.append(...itemsElements)
     // }
 
-    // createShowMore(addMoreCardsCallback) {
-    //     const button = document.createElement('button')
-    //     button.classList.add('show-more-btn')
-    //     button.type = 'get'
-    //     button.innerHTML = `show more`
-
-    //     button.addEventListener('click', (e) => {
-    //         addMoreCardsCallback()
-    //     })
-
-    //     this.wrapper.appendChild(button)
-    //     this.showMoreButton = button
-    // }
+    showMoreInit(addMoreCardsCallback: () => void) {
+        this.showMoreButton.addEventListener('click', (e) => {
+            addMoreCardsCallback()
+        })
+    }
 
     // flushItems() {
     //     this.itemsContainer.innerHTML = ``

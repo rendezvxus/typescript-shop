@@ -34,7 +34,7 @@ export default class Main {
         // this.cartManager = new CartManager(this.cart)
 
         this.itemList.createContainer()
-        // this.itemList.createShowMore(() => {this.renderMoreCards() })
+        this.itemList.showMoreInit(() => {this.renderMoreCards() })
         // this.cart.createContainer()
         // this.filter.createContainer()
 
@@ -65,6 +65,9 @@ export default class Main {
     // checkoutItems() {
     //     this.cartManager.checkoutItems()
     // }
+    renderMoreCards() {
+        alert('RENDER')
+    }
 
     // renderMoreCards() {
     //     const MAX_ROWS_AMOUNT = 4
