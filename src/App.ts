@@ -1,23 +1,32 @@
-import { Header, Main, Footer } from '@/components/components-body.js'
+import { Header, Footer } from './components/components-body.ts'
 
 export default class App {
-    constructor(headerEl, mainEl, footerEl) {
+
+    public headerEl: Element;
+    public mainEl: Element;
+    public footerEl: Element;
+    
+    public header: Header;
+    // public main: Main;
+    public footer: Footer;
+
+    constructor(
+        headerEl: Element, 
+        mainEl: Element, 
+        footerEl: Element
+    ) {
         this.headerEl = headerEl
         this.mainEl = mainEl
         this.footerEl = footerEl
-        
-        this.header = null
-        this.main = null
-        this.footer = null
+
+        this.header = new Header(this.headerEl)
+        // this.main = new Main(this.mainEl)
+        this.footer = new Footer(this.footerEl)
     }
 
     init() {
-        this.header = new Header(this.headerEl)
-        this.main = new Main(this.mainEl)
-        this.footer = new Footer(this.footerEl)
-
         this.header.render()
-        this.main.init()
+        // this.main.init()
         this.footer.render()
     }
 }

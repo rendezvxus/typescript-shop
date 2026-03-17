@@ -1,10 +1,13 @@
 export default class Footer {
-     constructor(footerEl) {
-        this.container = footerEl
+
+    public parentContainer: Element
+
+     constructor(parentContainer: Element) {
+        this.parentContainer = parentContainer
     }
 
     render() {
-        this.container.innerHTML = `
+        this.parentContainer.innerHTML = `
             <p>© 2020-2026, made with </p>
             <img class="footer-heart" src="/Heart.svg"/>
             <p> by </p>
