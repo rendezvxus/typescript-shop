@@ -1,19 +1,6 @@
 import Item from '../entity/Item.ts'
 
-type itemData = {
-    title: string,
-    description: string,
-    price: number,
-    image: string,
-    category: category,
-    amount: number
-}
-
-type category = {
-    slug: String;
-    name: String;
-    url: String;
-}
+import type { apiData, itemData, category } from '../../common-types.ts'
 
 export default class Cart {
 
@@ -27,7 +14,7 @@ export default class Cart {
     public itemElements: {[key: string]: Element};
 
     public removeItemCallback: (itemData: itemData) => void;
-    public totalPrice: number;
+    public totalPrice: string | number;
 
     constructor(
         parentContainer: Element, 
@@ -135,7 +122,7 @@ export default class Cart {
         return itemElement
     }
 
-    updateTotal(totalPrice: number) {
+    updateTotal(totalPrice: string | number) {
         this.totalPrice = totalPrice
         this.totalPriceElement.innerHTML = `<p>Total: ${this.totalPrice}$</p>`
     }
@@ -170,9 +157,8 @@ export default class Cart {
         itemElement.appendChild(removeButton)
     }
 
-    // checkout() {
-    //     this.body.innerHTML = ``
-    //     this.itemElements = {}
-        
-    // }
+    checkout() {
+        this.body.innerHTML = ``
+        this.itemElements = {}
+    }
 }

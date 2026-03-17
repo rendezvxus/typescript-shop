@@ -1,25 +1,4 @@
-type apiData = {
-    title: string,
-    description: string,
-    price: number,
-    images: string[],
-    category: category,
-}
-
-type category = {
-    slug: String;
-    name: String;
-    url: String;
-}
-
-type itemData = {
-    title: string,
-    description: string,
-    price: number,
-    image: string,
-    category: category,
-    amount: number
-}
+import type { apiData, itemData, category } from '../../common-types.ts'
 
 export default class Item {
 
@@ -27,7 +6,8 @@ export default class Item {
     public description: string;
     public price: number;
     public image: string;
-
+    public category: category;
+    
     public addToCartCallback: (self: Item) => void;
 
     constructor(
@@ -38,6 +18,7 @@ export default class Item {
         this.description = productData.description
         this.price = productData.price
         this.image = productData.images[0]
+        this.category = productData.category
 
         this.addToCartCallback = addToCartCallback
     }
@@ -71,7 +52,7 @@ export default class Item {
         addToCartButton.innerHTML = `
             <img class="cart-img" src="/Cart.svg"/>
         `
-        addToCartButton.addEventListener('click',(e) => {
+        addToCartButton.addEventListener('click',() => {
             this.addToCartCallback(this)
         })
 

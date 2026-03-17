@@ -3,29 +3,10 @@ import CartManager from '../catalog/CartManager.ts'
 // import Filter from '../catalog/Filter.js'
 import Cart from '../catalog/entity/Cart.ts'
 import Item from '../catalog/entity/Item.ts'
+import type { apiData, category, itemData } from '../common-types.ts';
 
-type apiData = {
-    title: string,
-    description: string,
-    price: number,
-    images: string[],
-    category: category,
-}
 
-type itemData = {
-    title: string,
-    description: string,
-    price: number,
-    image: string,
-    category: category,
-    amount: number
-}
 
-type category = {
-    slug: String;
-    name: String;
-    url: String;
-}
 
 export default class Main {
 
@@ -82,7 +63,7 @@ export default class Main {
             products.map(datum => 
                 new Item(
                     datum, 
-                    (datum: itemData) => { this.addToCart(datum) }
+                    (datum: Item) => { this.addToCart(datum) }
                 )
             )
 
@@ -91,13 +72,12 @@ export default class Main {
     }
 
 
-    addToCart(item: itemData) {
+    addToCart(item: Item) {
         this.cartManager.addToCart(item)
     }
 
     checkoutItems() {
-        alert('silencer here')
-    //     this.cartManager.checkoutItems()
+        this.cartManager.checkoutItems()
     }
 
     renderMoreCards() {
