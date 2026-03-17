@@ -11,9 +11,9 @@ export default class App {
     private footer: Footer;
 
     constructor(
-        headerEl: Element, 
-        mainEl: Element, 
-        footerEl: Element
+        headerEl: HTMLElement, 
+        mainEl: HTMLElement, 
+        footerEl: HTMLElement
     ) {
         this.headerEl = headerEl
         this.mainEl = mainEl
