@@ -1,4 +1,4 @@
-import { Header, Footer } from './components/components-body.ts'
+import { Header, Main, Footer } from './components/components-body.ts'
 
 export default class App {
 
@@ -7,7 +7,7 @@ export default class App {
     public footerEl: Element;
     
     public header: Header;
-    // public main: Main;
+    public main: Main;
     public footer: Footer;
 
     constructor(
@@ -19,14 +19,14 @@ export default class App {
         this.mainEl = mainEl
         this.footerEl = footerEl
 
-        this.header = new Header(this.headerEl)
-        // this.main = new Main(this.mainEl)
+        this.header = new Header(this.headerEl)        
+        this.main = new Main(this.mainEl)
         this.footer = new Footer(this.footerEl)
     }
 
     init() {
         this.header.render()
-        // this.main.init()
+        this.main.init()
         this.footer.render()
     }
 }
