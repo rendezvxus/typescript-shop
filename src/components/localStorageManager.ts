@@ -2,10 +2,10 @@ import type { itemData } from './common-types.ts';
 
 export default class LocalStorageManager {
 
-    public storage: Storage = window.localStorage;
-    public cartData: itemData[] = [];
+    private storage: Storage = window.localStorage;
+    private cartData: itemData[] = [];
 
-    public onWindowCloseCallback: () => itemData[];
+    private onWindowCloseCallback: () => itemData[];
 
     constructor(
         onWindowCloseCallback: () => itemData[]

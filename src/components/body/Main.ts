@@ -8,14 +8,14 @@ import type { apiData, category, itemData } from '../common-types.ts';
 
 export default class Main {
 
-    public mainComponent: Element;
+    private mainComponent: Element;
 
-    public itemList: ItemsList;
-    public cart: Cart;
-    public filter: Filter;
-    public cartManager: CartManager;
+    private itemList: ItemsList;
+    private cart: Cart;
+    private filter: Filter;
+    private cartManager: CartManager;
 
-    public items: Item[];
+    private items: Item[];
 
     constructor(
         mainEl: Element

@@ -4,12 +4,12 @@ import type { category } from '../common-types.ts';
 
 export default class Filter {
 
-    public parentContainer: Element;
-    public container: Element;
+    private parentContainer: Element;
+    private container: Element;
     
-    public applyFilterCallback: (category: category) => void;
+    private applyFilterCallback: (category: category) => void;
     
-    public categories: category[] = [];
+    private categories: category[] = [];
 
     constructor(
         parentContainer: Element, 

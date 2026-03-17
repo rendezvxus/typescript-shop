@@ -1,6 +1,6 @@
 export default class Header {
 
-    public parentContainer: Element
+    private parentContainer: Element
 
     constructor(parentContainer: Element) {
         this.parentContainer = parentContainer

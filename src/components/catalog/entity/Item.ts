@@ -2,13 +2,13 @@ import type { apiData, category } from '../../common-types.ts'
 
 export default class Item {
 
-    public title: string;
-    public description: string;
-    public price: number;
-    public image: string;
-    public category: category;
+    private title: string;
+    private description: string;
+    private price: number;
+    private image: string;
+    private category: category;
     
-    public addToCartCallback: (self: Item) => void;
+    private addToCartCallback: (self: Item) => void;
 
     constructor(
         productData: apiData, 

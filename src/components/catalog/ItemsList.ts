@@ -2,12 +2,12 @@ import Item from './entity/Item.ts'
 
 export default class ItemsList {
 
-    public parentContainer: Element;
+    private parentContainer: Element;
 
-    public wrapper: Element;
-    public itemsContainer: Element;
+    private wrapper: Element;
+    private itemsContainer: Element;
 
-    public showMoreButton: HTMLButtonElement;
+    private showMoreButton: HTMLButtonElement;
 
     constructor(
         parentContainer: Element

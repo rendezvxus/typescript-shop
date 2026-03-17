@@ -6,11 +6,11 @@ import type { itemData } from '../common-types.ts'
 
 export default class CartManager {
 
-    public cart: Cart;
+    private cart: Cart;
 
-    public itemsInCart: itemData[]
+    private itemsInCart: itemData[]
 
-    public storageManager: LocalStorageManager;
+    private storageManager: LocalStorageManager;
 
     constructor(cartEntity: Cart) {
         this.cart = cartEntity

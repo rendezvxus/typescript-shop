@@ -2,11 +2,11 @@ import type { category } from '../../common-types.ts';
 
 export default class FilterButton {
 
-    public parentContainer: Element;
-    public selfElement: Element;
+    private parentContainer: Element;
+    private selfElement: Element;
 
-    public category: category;
-    public clickCallback: (category: category) => void;
+    private category: category;
+    private clickCallback: (category: category) => void;
 
     constructor(
         parentContainer: Element, 

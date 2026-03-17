@@ -2,17 +2,17 @@ import type { itemData } from '../../common-types.ts'
 
 export default class Cart {
 
-    public parentContainer: Element;
-    public checkoutCallback: () => void;
+    private parentContainer: Element;
+    private checkoutCallback: () => void;
 
-    public container: Element;
-    public body: Element;
-    public totalPriceElement: Element;
+    private container: Element;
+    private body: Element;
+    private totalPriceElement: Element;
 
-    public itemElements: {[key: string]: Element};
+    private itemElements: {[key: string]: Element};
 
-    public removeItemCallback: (itemData: itemData) => void;
-    public totalPrice: string | number;
+    private removeItemCallback: (itemData: itemData) => void;
+    private totalPrice: string | number;
 
     constructor(
         parentContainer: Element, 

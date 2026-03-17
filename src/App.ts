@@ -2,13 +2,13 @@ import { Header, Main, Footer } from './components/components-body.ts'
 
 export default class App {
 
-    public headerEl: Element;
-    public mainEl: Element;
-    public footerEl: Element;
+    private headerEl: Element;
+    private mainEl: Element;
+    private footerEl: Element;
     
-    public header: Header;
-    public main: Main;
-    public footer: Footer;
+    private header: Header;
+    private main: Main;
+    private footer: Footer;
 
     constructor(
         headerEl: Element, 

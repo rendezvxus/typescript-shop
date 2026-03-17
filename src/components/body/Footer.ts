@@ -1,6 +1,6 @@
 export default class Footer {
 
-    public parentContainer: Element
+    private parentContainer: Element
 
      constructor(parentContainer: Element) {
         this.parentContainer = parentContainer
