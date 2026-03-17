@@ -1,4 +1,4 @@
-import CategoryButton from './entity/CategoryButton.js'
+import CategoryButton from './entity/CategoryButton.ts'
 
 import type { apiData, category, itemData } from '../common-types.ts';
 
@@ -56,18 +56,4 @@ export default class Filter {
         return fetch(url)
             .then(response => response.json())
     }
-
-    // toggleFilter(category) {
-    //     console.log("Toggled " + category.name)
-    //     const index = this.filteredCategories.indexOf(category)
-    //     if (index >= 0) {
-    //         this.filteredCategories.splice(index, 1)
-    //     } else {
-    //         this.filteredCategories.push(category)
-    //     }
-    // }
-
-    // getFilteredCaretgories() {
-    //     return this.filteredCategories
-    // }
 }

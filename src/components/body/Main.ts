@@ -46,7 +46,7 @@ export default class Main {
         this.cart.render()
         this.filter.render()
 
-        // this.cartManager.init()
+        this.cartManager.init()
 
         const INITIAL_CARDS_AMOUNT = 6
         this.generateItems(INITIAL_CARDS_AMOUNT)

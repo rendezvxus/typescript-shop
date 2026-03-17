@@ -1,32 +1,35 @@
 import Cart from './entity/Cart.ts'
 import Item from './entity/Item.ts'
-// import LocalStorageManager from '../localStorageManager.js'
+import LocalStorageManager from '../localStorageManager.ts'
 
 import type { apiData, itemData, category } from '../common-types.ts'
 
 export default class CartManager {
 
     public cart: Cart;
+
     public itemsInCart: itemData[]
 
-    // public storageManager: LocalStorageManager;
+    public storageManager: LocalStorageManager;
 
     constructor(cartEntity: Cart) {
         this.cart = cartEntity
+
         this.itemsInCart = []
 
-        // this.storageManager = null;
+        this.storageManager = new LocalStorageManager(() => this.getItemsInCart() )
+
     }
 
     init() {
-        // this.initStorage()
-        // const data = this.getStorageData()
-        // if (data) {
-        //     data.forEach(item => {
-        //         this.addToCart(item, true)
-        //     })
-        //     this.updateTotal()
-        // }
+        this.storageManager.init()
+        const data = this.getStorageData()
+        if (data) {
+            data.forEach(item => {
+                this.addFromStorage(item)
+            })
+            this.updateTotal()
+        }
     }
 
     addFromStorage(itemData: itemData) {
@@ -75,11 +78,6 @@ export default class CartManager {
         return pricesArray[0] ? pricesArray.reduce((a,b) => a + b) : 0;
     }
 
-    // addItemCount(item) {
-    //     item.amount = 1
-    //     return item
-    // }
-
     updateTotal() {
         const totalPrice = this.getTotalPrice()
         const priceRoundUp = totalPrice == 0 ? totalPrice : totalPrice.toFixed(2);
@@ -92,16 +90,11 @@ export default class CartManager {
         this.updateTotal()
     }
 
-    // initStorage() {
-    //     this.storageManager = new LocalStorageManager(() => this.getItemsInCart() )
-    //     this.storageManager.init()
-    // }
+    getStorageData(): itemData[] {
+        return this.storageManager.getData()
+    }
 
-    // getStorageData() {
-    //     return this.storageManager.getData()
-    // }
-
-    // getItemsInCart() {
-    //     return this.itemsInCart
-    // }
+    getItemsInCart(): itemData[] {
+        return this.itemsInCart
+    }
 }

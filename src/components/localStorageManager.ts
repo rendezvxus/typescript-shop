@@ -1,15 +1,22 @@
-export default class LocalStorageManager {
-    constructor(onWindowCloseCallback) {
-        this.storage = window.localStorage
-        this.cartData = null
+import type { apiData, category, itemData } from './common-types.ts';
 
+export default class LocalStorageManager {
+
+    public storage: Storage = window.localStorage;
+    public cartData: itemData[] = [];
+
+    public onWindowCloseCallback: () => itemData[];
+
+    constructor(
+        onWindowCloseCallback: () => itemData[]
+    ) {
+        this.storage = window.localStorage
         this.onWindowCloseCallback = onWindowCloseCallback
     }
 
     init() {
         this.loadData()
         this.createOncloseListener()
-        return this
     }
 
     getData() {
@@ -18,21 +25,19 @@ export default class LocalStorageManager {
 
     loadData() {  
         const dataString = this.storage.getItem('cartData');
-        if (typeof(dataString) !== undefined) {
+        if (dataString) {
             this.cartData = JSON.parse(dataString)
         }
     }
 
-    saveData(data) {
+    saveData(data: itemData[]) {
         const jsonData = JSON.stringify(data)
         this.storage.setItem('cartData', jsonData)
     }
 
     createOncloseListener() {
-        // learned about beforeunload event
         const self = this
         window.addEventListener('beforeunload', (e) => {
-            alert("EVENT STARTED")
             const data = self.onWindowCloseCallback()
             self.saveData(data)
         })
