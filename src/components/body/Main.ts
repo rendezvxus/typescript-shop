@@ -1,7 +1,7 @@
 import ItemsList from '../catalog/ItemsList.ts'
 // import CartManager from '../catalog/CartManager.js'
 // import Filter from '../catalog/Filter.js'
-// import Cart from '../catalog/entity/Cart.js'
+import Cart from '../catalog/entity/Cart.ts'
 import Item from '../catalog/entity/Item.ts'
 
 type itemData = {
@@ -25,7 +25,7 @@ export default class Main {
     public mainComponent: Element;
 
     public itemList: ItemsList;
-    // public cart: Cart;
+    public cart: Cart;
     // public filter: Filter;
     // public cartManager: CartManager;
 
@@ -37,25 +37,22 @@ export default class Main {
         this.mainComponent = mainEl
 
         this.itemList = new ItemsList(this.mainComponent)
-        // this.cart = null;
+        this.cart = new Cart(this.mainComponent, () => { this.checkoutItems() })
         // this.filter = null;
-        // this.cartManager = null;
+        // this.cartManager = new CartManager(this.cart)
 
         this.items = [];
     }
 
     init() {
-        // this.cart = new Cart(this.mainComponent, () => { this.checkoutItems() })
         // this.filter = new Filter(this.mainComponent, (args) => this.filterItems(args))
-        // this.cartManager = new CartManager(this.cart)
 
         this.itemList.createContainer()
         this.itemList.showMoreInit(() => { this.renderMoreCards() })
-        // this.cart.createContainer()
         // this.filter.createContainer()
 
         this.itemList.render()
-        // this.cart.render()
+        this.cart.render()
         // this.filter.render()
 
         // this.cartManager.init()
@@ -77,15 +74,17 @@ export default class Main {
 
 
     addToCart(item: Item) {
-        // alert('Adding item to cart')
-        // this.cartManager.addToCart(item)
+        alert('silencer here')
+    //     this.cartManager.addToCart(item)
     }
 
-    // checkoutItems() {
+    checkoutItems() {
+        alert('silencer here')
     //     this.cartManager.checkoutItems()
-    // }
+    }
 
     renderMoreCards() {
+
         const MAX_ROWS_AMOUNT = 4
         const CARDS_IN_ROW = 3
         const rng = Math.random()
