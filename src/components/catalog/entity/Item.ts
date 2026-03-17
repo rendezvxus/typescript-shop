@@ -1,9 +1,36 @@
+type category = {
+    slug: String;
+    name: String;
+    url: String;
+}
+
+type itemData = {
+    title: string,
+    description: string,
+    price: number,
+    images: string[],
+    category: category,
+
+    amount?: number
+}
+
 export default class Item {
-    constructor({title, description, price, images}, addToCartCallback) {
-        this.title = title
-        this.description = description
-        this.price = price
-        this.image = images[0]
+
+    public title: string;
+    public description: string;
+    public price: number;
+    public image: string;
+
+    public addToCartCallback: (self: Item) => void;
+
+    constructor(
+        productData: itemData, 
+        addToCartCallback: (self: Item) => void
+    ) {
+        this.title = productData.title
+        this.description = productData.description
+        this.price = productData.price
+        this.image = productData.images[0]
 
         this.addToCartCallback = addToCartCallback
     }

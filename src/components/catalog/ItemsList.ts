@@ -1,3 +1,5 @@
+import Item from './entity/Item.ts'
+
 export default class ItemsList {
 
     public parentContainer: Element;
@@ -14,7 +16,7 @@ export default class ItemsList {
         // this.itemsContainer = null
         // this.showMoreButton = null
 
-        this.wrapper = this.createContainer()
+        this.wrapper = this.createWrapper()
         this.itemsContainer = this.createContainer() 
 
         this.showMoreButton = this.createShowMoreButton()
@@ -49,10 +51,10 @@ export default class ItemsList {
         return button
     }
 
-    // appendItems(items) {
-    //     const itemsElements = items.map(item => item.render())
-    //     this.itemsContainer.append(...itemsElements)
-    // }
+    appendItems(items: Item[]) {
+        const itemsElements = items.map(item => item.render())
+        this.itemsContainer.append(...itemsElements)
+    }
 
     showMoreInit(addMoreCardsCallback: () => void) {
         this.showMoreButton.addEventListener('click', (e) => {
