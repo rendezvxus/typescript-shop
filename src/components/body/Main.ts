@@ -1,12 +1,10 @@
 import ItemsList from '../catalog/ItemsList.ts'
 import CartManager from '../catalog/CartManager.ts'
-// import Filter from '../catalog/Filter.js'
+import Filter from '../catalog/Filter.ts'
 import Cart from '../catalog/entity/Cart.ts'
 import Item from '../catalog/entity/Item.ts'
+
 import type { apiData, category, itemData } from '../common-types.ts';
-
-
-
 
 export default class Main {
 
@@ -14,7 +12,7 @@ export default class Main {
 
     public itemList: ItemsList;
     public cart: Cart;
-    // public filter: Filter;
+    public filter: Filter;
     public cartManager: CartManager;
 
     public items: Item[];
@@ -30,7 +28,7 @@ export default class Main {
             () => { this.checkoutItems() },
             (itemData: itemData) => this.removeFromCart(itemData)
         )
-        // this.filter = null;
+        this.filter = new Filter(this.mainComponent, (args) => this.filterItems(args))
         this.cartManager = new CartManager(this.cart)
 
         this.items = [];
@@ -41,15 +39,12 @@ export default class Main {
     }
 
     init() {
-        // this.filter = new Filter(this.mainComponent, (args) => this.filterItems(args))
-
         this.itemList.createContainer()
         this.itemList.showMoreInit(() => { this.renderMoreCards() })
-        // this.filter.createContainer()
 
         this.itemList.render()
         this.cart.render()
-        // this.filter.render()
+        this.filter.render()
 
         // this.cartManager.init()
 
@@ -92,10 +87,10 @@ export default class Main {
         this.generateItems(requestLimit, this.items.length)
     }
 
-    // flushItemCards() {
-    //     this.items = []
-    //     this.itemList.flushItems()    
-    // }
+    flushItemCards() {
+        this.items = []
+        this.itemList.flushItems()    
+    }
 
     generateItems(
         limit = 6, 
@@ -123,9 +118,9 @@ export default class Main {
         return url
     }
 
-    // filterItems(category) {
-    //     this.flushItemCards()
-    //     this.generateItems(0, 0 , category)
-    // }
+    filterItems(category: category) {
+        this.flushItemCards()
+        this.generateItems(0, 0 , category)
+    }
 
 }

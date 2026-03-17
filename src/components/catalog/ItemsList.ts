@@ -13,12 +13,8 @@ export default class ItemsList {
         parentContainer: Element
     ) {
         this.parentContainer = parentContainer;
-        // this.itemsContainer = null
-        // this.showMoreButton = null
-
         this.wrapper = this.createWrapper()
         this.itemsContainer = this.createContainer() 
-
         this.showMoreButton = this.createShowMoreButton()
     }
 
@@ -62,7 +58,7 @@ export default class ItemsList {
         })
     }
 
-    // flushItems() {
-    //     this.itemsContainer.innerHTML = ``
-    // }
+    flushItems() {
+        this.itemsContainer.innerHTML = ``
+    }
 }

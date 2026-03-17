@@ -1,10 +1,23 @@
+import type { apiData, category, itemData } from '../../common-types.ts';
+
 export default class FilterButton {
-    constructor(parentContainer, category, clickCallback) {
+
+    public parentContainer: Element;
+    public selfElement: Element;
+
+    public category: category;
+    public clickCallback: (category: category) => void;
+
+    constructor(
+        parentContainer: Element, 
+        category: category, 
+        clickCallback: (category: category) => void
+    ) {
         this.parentContainer = parentContainer
         this.category = category
         this.clickCallback = clickCallback
 
-        this.selfElement = null
+        this.selfElement = this.buildButton()
     }
 
     buildButton() {
@@ -18,7 +31,7 @@ export default class FilterButton {
 
         button.appendChild(checkbox)
 
-        checkbox.addEventListener('change', (e) => {
+        checkbox.addEventListener('change', () => {
             this.clickCallback(this.category)
         })
         
@@ -26,9 +39,6 @@ export default class FilterButton {
     }
 
     render() {
-        const selfElement = this.buildButton()
-        this.selfElement = selfElement
-
         this.parentContainer.appendChild(this.selfElement)
     }
 }
